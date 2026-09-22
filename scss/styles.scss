@@ -1,0 +1,266 @@
+// ==========================================
+// VARIABLES DE SASS
+// ==========================================
+$color-fondo-1: #fff9e6;
+$color-fondo-2: #ffeaa7;
+$amarillo-petalo: #fbc531;
+$amarillo-resplandor: #f5cd79;
+$centro-flor: #e17055;
+$verde-tallo: #4cd137;
+$verde-hoja: #44bd32;
+$color-texto: #2d3436;
+$color-tarjeta: rgba(255, 255, 255, 0.92);
+
+$fuente-principal: 'Poppins', sans-serif;
+$fuente-romantica: 'Dancing Script', cursive;
+
+// ==========================================
+// MIXINS
+// ==========================================
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// ==========================================
+// REGLAS GENERALES Y FONDO
+// ==========================================
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: $fuente-principal;
+    background: linear-gradient(135deg, $color-fondo-1 0%, $color-fondo-2 100%);
+    color: $color-texto;
+    position: relative;
+    overflow-x: hidden;
+    @include flex-center;
+    padding: 2rem 1rem;
+}
+
+// ==========================================
+// ANIMACIÓN DE PÉTALOS FLOTANTES
+// ==========================================
+.petalos-lluvia {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+
+    span {
+        position: absolute;
+        display: block;
+        width: 15px;
+        height: 25px;
+        background: $amarillo-petalo;
+        border-radius: 50% 50% 50% 0;
+        opacity: 0.6;
+        animation: caer 8s linear infinite;
+
+        // Variaciones de posición y tiempo usando anidamiento y loops
+        @for $i from 1 through 10 {
+            &:nth-child(#{$i}) {
+                left: #{$i * 9%};
+                animation-duration: #{6 + ($i * 0.7)}s;
+                animation-delay: #{$i * 0.5}s;
+                transform: scale(0.6 + ($i * 0.05));
+            }
+        }
+    }
+}
+
+// ==========================================
+// CONTENEDOR PRINCIPAL Y TARJETA
+// ==========================================
+.contenedor-principal {
+    position: relative;
+    z-index: 2;
+    @include flex-center;
+    flex-direction: column;
+    max-width: 580px;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+.tarjeta-mensaje {
+    background: $color-tarjeta;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 15px 35px rgba(225, 112, 85, 0.15);
+    border: 1px solid rgba(251, 197, 49, 0.4);
+    text-align: center;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+    }
+
+    .etiqueta-fecha {
+        display: inline-block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #d35400;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+    }
+
+    .titulo {
+        font-family: $fuente-romantica;
+        font-size: 2.3rem;
+        color: #b7791f;
+        margin-bottom: 1.2rem;
+        line-height: 1.2;
+    }
+
+    .parrafo {
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+        color: #4a4a4a;
+
+        &.destacado {
+            font-weight: 600;
+            color: #b7791f;
+        }
+    }
+
+    .firma {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px dashed rgba(251, 197, 49, 0.5);
+
+        .corazon {
+            font-size: 2rem;
+            display: inline-block;
+            animation: latido 1.8s ease-in-out infinite;
+        }
+
+        p {
+            font-family: $fuente-romantica;
+            font-size: 1.6rem;
+            color: #c0392b;
+            margin-top: 0.4rem;
+        }
+    }
+}
+
+// ==========================================
+// FLOR HECHA EN CSS PURO
+// ==========================================
+.flor-animada {
+    position: relative;
+    width: 140px;
+    height: 190px;
+    animation: balanceo 4s ease-in-out infinite alternate;
+
+    .corola {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        z-index: 2;
+
+        .centro-flor {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 42px;
+            height: 42px;
+            background: radial-gradient(circle, #e17055 0%, #b33922 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(225, 112, 85, 0.5);
+            z-index: 3;
+        }
+
+        .petalo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 32px;
+            height: 60px;
+            background: linear-gradient(to top, $amarillo-resplandor, $amarillo-petalo);
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transform-origin: center bottom;
+            margin-left: -16px;
+            margin-top: -60px;
+
+            // Rotación de los 8 pétalos
+            &.p1 { transform: rotate(0deg); }
+            &.p2 { transform: rotate(45deg); }
+            &.p3 { transform: rotate(90deg); }
+            &.p4 { transform: rotate(135deg); }
+            &.p5 { transform: rotate(180deg); }
+            &.p6 { transform: rotate(225deg); }
+            &.p7 { transform: rotate(270deg); }
+            &.p8 { transform: rotate(315deg); }
+        }
+    }
+
+    .tallo {
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        width: 8px;
+        height: 95px;
+        background: linear-gradient(to bottom, $verde-tallo, $verde-hoja);
+        border-radius: 4px;
+        transform: translateX(-50%);
+        z-index: 1;
+
+        .hoja {
+            position: absolute;
+            width: 30px;
+            height: 18px;
+            background: $verde-hoja;
+            border-radius: 20px 0 20px 0;
+
+            &.izquierda {
+                top: 25px;
+                right: 5px;
+                transform: rotate(-35deg);
+            }
+
+            &.derecha {
+                top: 45px;
+                left: 5px;
+                transform: rotate(35deg) scaleX(-1);
+            }
+        }
+    }
+}
+
+// ==========================================
+// KEYFRAMES
+// ==========================================
+@keyframes balanceo {
+    0% { transform: rotate(-4deg); }
+    100% { transform: rotate(4deg); }
+}
+
+@keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@keyframes caer {
+    0% {
+        top: -10%;
+        transform: translateX(0) rotate(0deg);
+    }
+    100% {
+        top: 110%;
+        transform: translateX(60px) rotate(360deg);
+    }
+}
